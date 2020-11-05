@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!-- Copyright (C) 2015 The Android Open Source Project
+
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
      You may obtain a copy of the License at
+
           http://www.apache.org/licenses/LICENSE-2.0
+
      Unless required by applicable law or agreed to in writing, software
      distributed under the License is distributed on an "AS IS" BASIS,
      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -50,7 +53,6 @@
                 <item>FM Tuner In</item>
                 <item>Voice Call In</item>
                 <item>Echo Ref In</item>
-                <item>Telephony Tx</item>
             </attachedDevices>
             <defaultOutputDevice>Speaker</defaultOutputDevice>
             <mixPorts>
@@ -85,11 +87,6 @@
                              samplingRates="44100,48000" channelMasks="AUDIO_CHANNEL_OUT_STEREO"/>
                 </mixPort>
                 <mixPort name="primary input" role="sink" maxOpenCount="1" maxActiveCount="1">
-                    <profile name="" format="AUDIO_FORMAT_PCM_16_BIT"
-                             samplingRates="8000,16000,32000,44100,48000"
-                             channelMasks="AUDIO_CHANNEL_IN_MONO,AUDIO_CHANNEL_IN_STEREO,AUDIO_CHANNEL_IN_VOICE_UPLINK,AUDIO_CHANNEL_IN_VOICE_DNLINK"/>
-                </mixPort>
-                <mixPort name="voice tx" role="sink" maxOpenCount="1" maxActiveCount="1">
                     <profile name="" format="AUDIO_FORMAT_PCM_16_BIT"
                              samplingRates="8000,16000,32000,44100,48000"
                              channelMasks="AUDIO_CHANNEL_IN_MONO,AUDIO_CHANNEL_IN_STEREO,AUDIO_CHANNEL_IN_VOICE_UPLINK,AUDIO_CHANNEL_IN_VOICE_DNLINK"/>
@@ -169,12 +166,6 @@
                     <profile name="" format="AUDIO_FORMAT_PCM_16_BIT"
                              samplingRates="44100,48000" channelMasks="AUDIO_CHANNEL_OUT_STEREO"/>
                 </devicePort>
-                <devicePort tagName="Telephony Tx" type="AUDIO_DEVICE_OUT_TELEPHONY_TX" role="sink">
-                    <profile name="" format="AUDIO_FORMAT_PCM_32_BIT"
-                             samplingRates="44100,48000" channelMasks="AUDIO_CHANNEL_OUT_STEREO"/>
-                    <profile name="" format="AUDIO_FORMAT_PCM_16_BIT"
-                             samplingRates="44100,48000" channelMasks="AUDIO_CHANNEL_OUT_STEREO"/>
-                </devicePort>
                 <devicePort tagName="Built-In Mic" type="AUDIO_DEVICE_IN_BUILTIN_MIC" role="source">
                     <profile name="" format="AUDIO_FORMAT_PCM_16_BIT"
                              samplingRates="8000,16000,32000,44100,48000"
@@ -217,7 +208,7 @@
                 <devicePort tagName="Voice Call In" type="AUDIO_DEVICE_IN_VOICE_CALL" role="source">
                      <profile name="" format="AUDIO_FORMAT_PCM_16_BIT"
                              samplingRates="8000,16000,32000,44100,48000"
-                             channelMasks="AUDIO_CHANNEL_IN_MONO,AUDIO_CHANNEL_IN_STEREO,AUDIO_CHANNEL_IN_VOICE_UPLINK,AUDIO_CHANNEL_IN_VOICE_DNLINK"/>
+                             channelMasks="AUDIO_CHANNEL_IN_MONO,AUDIO_CHANNEL_IN_STEREO,AUDIO_CHANNEL_IN_FRONT_BACK,AUDIO_CHANNEL_IN_VOICE_UPLINK,AUDIO_CHANNEL_IN_VOICE_DNLINK"/>
                 </devicePort>
             </devicePorts>
             <!-- route declaration, i.e. list all available sources for a given sink -->
@@ -246,12 +237,8 @@
                        sources="primary output"/>
                 <route type="mix" sink="USB Primary Out"
                        sources="primary output,Voice Call In"/>
-               <route type="mix" sink="Telephony Tx"
-                       sources="Built-In Mic,Built-In Back Mic,Wired Headset Mic,BT SCO Headset Mic,USB Primary In,incall_music_uplink"/>
                 <route type="mix" sink="primary input"
-                       sources="Built-In Mic,Built-In Back Mic,Wired Headset Mic,BT SCO Headset Mic,AUX Digital In,USB Primary In,Echo Ref In"/>
-                <route type="mix" sink="voice tx"
-                       sources="Voice Call In"/>
+                       sources="Built-In Mic,Built-In Back Mic,Wired Headset Mic,BT SCO Headset Mic,AUX Digital In,USB Primary In,Echo Ref In,Voice Call In"/>
                 <route type="mix" sink="FM Tuner input"
                        sources="FM Tuner In"/>
             </routes>
@@ -259,25 +246,24 @@
         </module>
 
         <!-- BT Audio HAL -->
-        <xi:include href="bluetooth_audio_policy_configuration.xml"/>
+        <xi:include href="/vendor/etc/bluetooth_audio_policy_configuration.xml"/>
 
-        <!-- A2dp Input Audio HAL -->
-        <xi:include href="a2dp_in_audio_policy_configuration.xml"/>
+        <!-- A2dp Audio HAL -->
+        <xi:include href="/vendor/etc/a2dp_audio_policy_configuration.xml"/>
+		<xi:include href="/vendor/etc/a2dp_in_audio_policy_configuration.xml"/>
 
         <!-- Usb Audio HAL -->
-        <xi:include href="usb_audio_policy_configuration.xml"/>
+        <xi:include href="/vendor/etc/usb_audio_policy_configuration.xml"/>
 
         <!-- Remote Submix Audio HAL -->
-        <xi:include href="r_submix_audio_policy_configuration.xml"/>
+        <xi:include href="/vendor/etc/r_submix_audio_policy_configuration.xml"/>
 
     </modules>
     <!-- End of Modules section -->
 
     <!-- Volume section -->
-
-    <xi:include href="audio_policy_volumes.xml"/>
-    <xi:include href="default_volume_tables.xml"/>
-
+    <xi:include href="/vendor/etc/audio_policy_volumes.xml"/>
+    <xi:include href="/vendor/etc/default_volume_tables.xml"/>
     <!-- End of Volume section -->
 
 </audioPolicyConfiguration>
